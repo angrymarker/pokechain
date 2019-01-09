@@ -1,6 +1,6 @@
 {
   "name": "blockchain",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Customizable Blockchain",
   "main": "main.js",
   "scripts": {
@@ -11,5 +11,21 @@
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "nanoid": "^2.0.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angrymarker/pokechain.git"
+  },
+  "keywords": [
+    "pokemon",
+    "blockchain",
+    "nodejs",
+    "javascript",
+    "pokechain"
+  ],
+  "bugs": {
+    "url": "https://github.com/angrymarker/pokechain/issues"
+  },
+  "homepage": "https://github.com/angrymarker/pokechain#readme"
 }
