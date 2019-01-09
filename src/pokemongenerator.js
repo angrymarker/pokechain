@@ -1,6 +1,6 @@
 const pokedex = require('../data/pokemon.json');
 var nanoid = require('nanoid');
-
+const config = require('../config/config.json');
 exports.createblockdata = function()
 {
 	var data= {
@@ -15,8 +15,8 @@ exports.createblockdata = function()
 
 exports.grabpokemon = function()
 {
-	var pokemin = 1;
-	var pokemax = 809;
+	var pokemin = config.Pokemon.MinID;
+	var pokemax = config.Pokemon.MaxID;
 	var id = this.getRandomInt(pokemin, pokemax);
 	var pokemon = this.getPokemonByID(id);
 	return pokemon;
@@ -24,8 +24,8 @@ exports.grabpokemon = function()
 
 exports.isshiny = function()
 {
-	var shinymax = 8191;
-	var shinymin = 0;
+	var shinymax = config.Pokemon.ShinyMax;
+	var shinymin = config.Pokemon.ShinyMin;
 	var randonum = this.getRandomInt(shinymax, shinymin);
 	if (randonum == 420)
 	{
@@ -39,8 +39,8 @@ exports.isshiny = function()
 
 exports.grabstats = function()
 {
-	var statsmin = 0;
-	var statsmax = 31;
+	var statsmin = config.Pokemon.StatsMin;
+	var statsmax = config.Pokemon.StatsMax;
 	var stats = 
 	{
 		hp: this.getRandomInt(statsmax, statsmin),

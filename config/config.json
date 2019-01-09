@@ -1,0 +1,10 @@
+{
+ "Pokemon": {
+   "MinID": 1,
+   "MaxID": 809,
+   "ShinyMin": 0,
+   "ShinyMax": 8191,
+   "StatsMin": 0,
+   "StatsMax": 31
+ }
+}
