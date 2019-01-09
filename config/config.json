@@ -6,5 +6,8 @@
    "ShinyMax": 8191,
    "StatsMin": 0,
    "StatsMax": 31
+ },
+ "Main": {
+   "blockchainfile": "./data/blockchain.json"
  }
 }

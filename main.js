@@ -1,6 +1,7 @@
 const blockchain = require('./src/blockchain.js');
 const block = require('./src/block.js');
 const pokegen = require('./src/pokemongenerator.js');
+const config = require('./config/config.json');
 var pokecoins;
 var fs = require('fs');
 
@@ -26,12 +27,12 @@ function validatechain()
 function updatejsonfile(json)
 {
 	json = JSON.stringify(json);
-	fs.writeFile('blockchain.json', json, 'utf8', function(data){}); // write it back 
+	fs.writeFile(config.Main.blockchainfile, json, 'utf8', function(data){}); // write it back 
 }
 
 function loadblockchain()
 {
-	var jsonfile = './blockchain.json';
+	var jsonfile = config.Main.blockchainfile;
 	if (fs.existsSync(jsonfile) == true)
 	{
 		var chain = fs.readFileSync(jsonfile).toString();
