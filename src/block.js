@@ -1,13 +1,13 @@
 const hasher = require('../src/calculatehash.js');
-var nanoid = require('nanoid');
-module.exports.CreateBlock = function (data, index = -1) {
+module.exports.CreateBlock = function (data, index = -1, transactions = "") {
 	var block = {
 		index: index,
 		timestamp: Date().toLocaleString(),
 		data: data,
 		previousHash: "0",
-		nonce: nanoid(),
-		hash: ""
+		nonce: 0,
+		hash: "",
+		transactions: transactions;
 	}
 	block.hash = hasher.calculateHash(block);
 	return block;
@@ -15,5 +15,9 @@ module.exports.CreateBlock = function (data, index = -1) {
 
 module.exports.mineBlock = function(difficulty)
 {
-	
+	while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
+		this.nonce++;
+		block.hash = hasher.calculateHash(block);
+	}
+	console.log('block mined ' + this.index);
 }
