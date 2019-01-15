@@ -20,6 +20,7 @@ exports.grabpokemon = function()
 	var pokemax = config.Pokemon.MaxID;
 	var id = this.getRandomInt(pokemin, pokemax);
 	var pokemon = this.getPokemonByID(id);
+	pokemon = pokemon[0];
 	return pokemon;
 }
 

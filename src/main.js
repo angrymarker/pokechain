@@ -44,7 +44,6 @@ function loadblockchain()
 	}
 	else
 	{
-		//pokecoins = new blockchain();
 		return null;
 	}
 }
@@ -65,15 +64,37 @@ pokecoins.addTransaction(tx2);
 pokecoins.minePendingTransactions(myWalletAddress);
 
 //console.log(`Balance of xavier is ${pokecoins.getUserPokebox(myWalletAddress)}`);
+var pokebox = pokecoins.getUserPokebox(myWalletAddress);
+
+for (var p = 0; p < pokebox.length; p++)
+{
+	var pokemon = JSON.parse(pokebox[p]);
+	pokemon = pokemon.Pokemon;
+	console.log(pokemon.id + " - " + pokemon.name.english);
+}
 
 // Uncomment this line if you want to test tampering with the chain
 // pokecoins.chain[1].transactions[0].amount = 10;
 
 // Check if the chain is valid
-console.log('Blockchain valid?', pokecoins.isValid() ? 'Yes' : 'No');
+var pokecoinvalidity = pokecoins.isValid();
+if (pokecoinvalidity == -1)
+{
+	console.log('Blockchain valid.');
+}
+else
+{
+	console.log('Blockchain invalid! Block id: ' + pokecoinvalidity);
+	console.log('fixing');
+	var fixedchain = [];
+	for (var p = 0; p < pokecoinvalidity; p++)
+	{
+		fixedchain.push(pokecoins.chain[p]);
+	}
+	pokecoins.chain = fixedchain;
+}
 updatejsonfile(pokecoins.chain);
 console.log('saved');
 //loadblockchain();
 
-//updatejsonfile(pokecoins.chain);
 

@@ -136,7 +136,6 @@ class Blockchain {
 	
 	getUserPokebox(address) {
 		let pokebox = [];
-		
 		for (const block of this.chain) {
 			for (const trans of block.transactions) {
 				if (trans.fromAddr === address) {
@@ -153,7 +152,11 @@ class Blockchain {
 				}
       		}
     	}
-    	
+    	pokebox.sort(function(a, b){
+			a = JSON.parse(a);
+			b = JSON.parse(b);
+			return a.Pokemon.id - b.Pokemon.id;
+		});
     	return pokebox;
 	}
 	
@@ -173,8 +176,6 @@ class Blockchain {
 		const genesisref = JSON.stringify(this.createGenesisBlock());
 		if (genesisref != JSON.stringify(this.chain[0])) {
 			console.log('genesiserr');
-			console.log(JSON.stringify(this.chain[0]));
-			console.log(JSON.stringify(this.createGenesisBlock()));
 			return false;
 		}
 		for (let b = 2; b < this.chain.length; b++)
@@ -185,19 +186,19 @@ class Blockchain {
 			if (prevBlock.hash != currBlock.previousHash)
 			{
 				console.log('prevfail');
-				return false;
+				return b;
 			}
 			if (prevBlock.calculateHash() != currBlock.previousHash)
 			{
 				console.log('prevfail2');
-				return false;
+				return b;
 			}
 			if (currBlock.hash != currBlock.calculateHash()) {
 				console.log('currfail');
-				return false;
+				return b;
 			}
 		}
-		return true;
+		return -1;
 	}
 	
 	removefromarray(array, search_term) {
