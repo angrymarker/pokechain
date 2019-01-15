@@ -1,6 +1,8 @@
 const { Blockchain, Transaction } = require('./blockchain');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
+const config = require('../config/config.json');
+var fs = require('fs');
 
 // Your private key goes here
 const myKey = ec.keyFromPrivate('7c4c45907dec40c91bab3480c39032e90049f1a44f3e18c3e07c23e3273995cf');
@@ -9,18 +11,14 @@ const myKey = ec.keyFromPrivate('7c4c45907dec40c91bab3480c39032e90049f1a44f3e18c
 const myWalletAddress = myKey.getPublic('hex');
 
 //create pokecoins 
-const pokecoins = new Blockchain();
-
-const config = require('../config/config.json');
-
-var fs = require('fs');
-
+const chain = loadblockchain();
+var pokecoins = new Blockchain(chain);
 
 function validatechain()
 {
 	if (pokecoins.checkValid() == true)
 	{
-		console.log(pokecoins);
+		console.log('chain valid');
 	}
 	else
 	{
@@ -42,11 +40,12 @@ function loadblockchain()
 	{
 		var chain = fs.readFileSync(jsonfile).toString();
 		chain = JSON.parse(chain);
-		pokecoins = new blockchain(chain);
+		return chain;
 	}
 	else
 	{
-		pokecoins = new blockchain();
+		//pokecoins = new blockchain();
+		return null;
 	}
 }
 
@@ -65,16 +64,15 @@ pokecoins.addTransaction(tx2);
 // Mine block
 pokecoins.minePendingTransactions(myWalletAddress);
 
-console.log();
-console.log(`Balance of xavier is ${pokecoins.getUserPokebox(myWalletAddress)}`);
+//console.log(`Balance of xavier is ${pokecoins.getUserPokebox(myWalletAddress)}`);
 
 // Uncomment this line if you want to test tampering with the chain
 // pokecoins.chain[1].transactions[0].amount = 10;
 
 // Check if the chain is valid
-console.log();
 console.log('Blockchain valid?', pokecoins.isValid() ? 'Yes' : 'No');
-
+updatejsonfile(pokecoins.chain);
+console.log('saved');
 //loadblockchain();
 
 //updatejsonfile(pokecoins.chain);

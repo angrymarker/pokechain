@@ -41,12 +41,13 @@ class Transaction {
 }
 
 class Block {
-	constructor(transactions, previousHash = '', timeStamp = Date.now()) {
+	constructor(transactions, previousHash = '', id = 0, timeStamp = Date.now(), nonce = 0, hash = this.calculateHash()) {
+		this.id = id;
 		this.previousHash = previousHash;
 		this.timestamp = timeStamp;
 		this.transactions = transactions;
-		this.nonce = 0;
-		this.hash = this.calculateHash();
+		this.nonce = nonce;
+		this.hash = hash;
 	}
 	
 	calculateHash() {
@@ -74,15 +75,32 @@ class Block {
 }
 
 class Blockchain {
-	constructor() {
-		this.chain = [this.createGenesisBlock()];
+	constructor(chain = null) {
+		this.chain = this.createchain(chain);
 		this.difficulty = 2;
 		this.pendingTransactions = [];
 		this.miningReward = 6;
 	}
 	
+	createchain(chain = null) {
+		if (chain == null)
+		{
+			return [this.createGenesisBlock()];
+		}
+		else
+		{
+			var passchain = [];
+			for (var c = 0; c < chain.length; c++)
+			{
+				var block = new Block(chain[c].transactions, chain[c].previousHash, passchain.length, chain[c].timestamp, chain[c].nonce, chain[c].hash);
+				passchain.push(block);
+			}
+			return passchain;
+		}
+	}
+	
 	createGenesisBlock() {
-		return new Block([], '0', Date.parse('2018-01-02'));
+		return new Block([], '0', 0, Date.parse('2018-01-02'),0);
 	}
 	
 	getLatestBlock() {
@@ -90,12 +108,11 @@ class Blockchain {
 	}
 	
 	minePendingTransactions(rewardAddr) {
-		const pokereward = this.getminingreward(this.miningReward);
-		console.log(pokereward);
+		const pokereward = this.getminingreward(this.miningReward, rewardAddr);
 		const rewardTrans = new Transaction(null, rewardAddr, pokereward);
 		this.pendingTransactions.push(rewardTrans);
 		
-		let block = new Block(this.pendingTransactions, this.getLatestBlock().hash);
+		let block = new Block(this.pendingTransactions, this.getLatestBlock().hash, this.chain.length);
 		block.mineBlock(this.difficulty);
 		
 		console.log('Mined block!');
@@ -155,19 +172,28 @@ class Blockchain {
 	isValid(){
 		const genesisref = JSON.stringify(this.createGenesisBlock());
 		if (genesisref != JSON.stringify(this.chain[0])) {
+			console.log('genesiserr');
+			console.log(JSON.stringify(this.chain[0]));
+			console.log(JSON.stringify(this.createGenesisBlock()));
 			return false;
 		}
-		for (let b = 1; b < this.chain.length; b++)
+		for (let b = 2; b < this.chain.length; b++)
 		{
 			const currBlock = this.chain[b];
 			const prevBlock = this.chain[b - 1];
 			
-			if (prevBlock.hash != currBlock.previousHash || prevBlock.calculateHash() != currBlock.previousHash)
+			if (prevBlock.hash != currBlock.previousHash)
 			{
+				console.log('prevfail');
 				return false;
 			}
-			
+			if (prevBlock.calculateHash() != currBlock.previousHash)
+			{
+				console.log('prevfail2');
+				return false;
+			}
 			if (currBlock.hash != currBlock.calculateHash()) {
+				console.log('currfail');
 				return false;
 			}
 		}
@@ -184,11 +210,11 @@ class Blockchain {
 		return array;
 	}
 	
-	getminingreward(quantity) {
+	getminingreward(quantity, rewardAddr = null) {
 		var reward = [];
 		for (var q = 0; q < quantity; q++)
 		{
-			reward.push(pokegen.createpokemon());
+			reward.push(pokegen.createpokemon(rewardAddr));
 		}
 		return reward;
 	}

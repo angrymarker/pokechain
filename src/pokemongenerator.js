@@ -1,14 +1,14 @@
 const pokedex = require('../data/pokemon.json');
 var nanoid = require('nanoid');
 const config = require('../config/config.json');
-exports.createpokemon = function()
+exports.createpokemon = function(owner = null)
 {
 	var data= {
 		id: nanoid(),
 		Pokemon: this.grabpokemon(),
 		Shiny: this.isshiny(),
 		IVs: this.grabstats(),
-		Owner: this.grabOwner(),
+		OriginalOwner: this.grabOwner(owner),
 		Gender: this.grabgender()
 	}
 	return JSON.stringify(data);
@@ -54,9 +54,16 @@ exports.grabstats = function()
 	return stats;
 }
 
-exports.grabOwner = function()
+exports.grabOwner = function(owner = null)
 {
-	return 'ash';
+	if (owner == null)
+	{
+		return 'Ash';
+	}
+	else
+	{
+		return owner;
+	}
 }
 
 exports.grabgender = function()
