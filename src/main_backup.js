@@ -6,14 +6,26 @@ var fs = require('fs');
 
 // Your private key goes here
 const myKey = ec.keyFromPrivate('7c4c45907dec40c91bab3480c39032e90049f1a44f3e18c3e07c23e3273995cf');
-console.log("key " + myKey);
+
 // From that we can calculate your public key (which doubles as your wallet address)
 const myWalletAddress = myKey.getPublic('hex');
-console.log("wallet " + myWalletAddress);
 
 //create pokecoins 
 const chain = loadblockchain();
 var pokecoins = new Blockchain(chain);
+
+function validatechain()
+{
+	if (pokecoins.checkValid() == true)
+	{
+		console.log('chain valid');
+	}
+	else
+	{
+		console.log('blockchain invalid');
+		pokecoins.fixChain();
+	}
+}
 
 function updatejsonfile(json)
 {
@@ -37,20 +49,18 @@ function loadblockchain()
 	}
 }
 
-//const tx1 = new Transaction(myWalletAddress, 'address2', 100);
-//tx1.signTransaction(myKey);
-//pokecoins.addTransaction(tx1);
-createtransaction(myWalletAddress, 'address2', 'mVBFTuSg2ex1uF9DI3PkT');
+const tx1 = new Transaction(myWalletAddress, 'address2', 100);
+tx1.signTransaction(myKey);
+pokecoins.addTransaction(tx1);
 
 // Mine block
 pokecoins.minePendingTransactions(myWalletAddress);
 
 // Create second transaction
-//const tx2 = new Transaction(myWalletAddress, 'address1', 50);
-//tx2.signTransaction(myKey);
-//pokecoins.addTransaction(tx2);
-createtransaction(myWalletAddress, 'address2', 'BvpJVQ6oBPrSUN4CGFRtM');
-//BvpJVQ6oBPrSUN4CGFRtM
+const tx2 = new Transaction(myWalletAddress, 'address1', 50);
+tx2.signTransaction(myKey);
+pokecoins.addTransaction(tx2);
+
 // Mine block
 pokecoins.minePendingTransactions(myWalletAddress);
 
@@ -85,45 +95,7 @@ else
 	pokecoins.chain = fixedchain;
 }
 updatejsonfile(pokecoins.chain);
-console.log(pokecoins.chain[2].transactions);
 console.log('saved');
-function selectfrompokebox(id, userbox)
-{
-	for (var p = 0; p < userbox.length; p++)
-	{
-		var pokemon;
-		try
-		{
-			pokemon = JSON.parse(userbox[p]);
-		}
-		catch
-		{
-			pokemon = userbox[p];
-		}
-		var compid = pokemon.id;
-		if (compid == id)
-		{
-			return pokemon;
-		}
-	}
-	return -1;
-}
+//loadblockchain();
 
-function createtransaction(fromaddr, toaddr, pokemon)
-{
-	console.log('here');
-	var userbox = pokecoins.getUserPokebox(fromaddr);
-	pokemon = selectfrompokebox(pokemon, userbox);
-	if (pokemon == -1)
-	{
-		throw new Error('You can\'t trade a pokemon you don\'t have!');
-	}
-	else
-	{
-		//can trade
-		const tx1 = new Transaction(fromaddr, toaddr, pokemon);
-		tx1.signTransaction(myKey);
-		pokecoins.addTransaction(tx1);
-	}
-	
-}
+
