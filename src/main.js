@@ -37,20 +37,15 @@ function loadblockchain()
 	}
 }
 
-//const tx1 = new Transaction(myWalletAddress, 'address2', 100);
-//tx1.signTransaction(myKey);
-//pokecoins.addTransaction(tx1);
-createtransaction(myWalletAddress, 'address2', 'mVBFTuSg2ex1uF9DI3PkT');
+// Create first transaction
+createtransaction(myWalletAddress, 'address2', 'fCIZv6UQe2PsHhdi00AFF');
 
 // Mine block
 pokecoins.minePendingTransactions(myWalletAddress);
 
 // Create second transaction
-//const tx2 = new Transaction(myWalletAddress, 'address1', 50);
-//tx2.signTransaction(myKey);
-//pokecoins.addTransaction(tx2);
-createtransaction(myWalletAddress, 'address2', 'BvpJVQ6oBPrSUN4CGFRtM');
-//BvpJVQ6oBPrSUN4CGFRtM
+createtransaction(myWalletAddress, 'address2', 'TXBfs2UaEIqsM5kHoNZJ_');
+
 // Mine block
 pokecoins.minePendingTransactions(myWalletAddress);
 
@@ -61,7 +56,7 @@ for (var p = 0; p < pokebox.length; p++)
 {
 	var pokemon = JSON.parse(pokebox[p]);
 	pokemon = pokemon.Pokemon;
-	console.log(pokemon.id + " - " + pokemon.name.english);
+	//console.log(pokemon.id + " - " + pokemon.name.english);
 }
 
 // Uncomment this line if you want to test tampering with the chain
@@ -85,7 +80,6 @@ else
 	pokecoins.chain = fixedchain;
 }
 updatejsonfile(pokecoins.chain);
-console.log(pokecoins.chain[2].transactions);
 console.log('saved');
 function selectfrompokebox(id, userbox)
 {
@@ -103,7 +97,7 @@ function selectfrompokebox(id, userbox)
 		var compid = pokemon.id;
 		if (compid == id)
 		{
-			return pokemon;
+			return [pokemon];
 		}
 	}
 	return -1;
@@ -111,9 +105,9 @@ function selectfrompokebox(id, userbox)
 
 function createtransaction(fromaddr, toaddr, pokemon)
 {
-	console.log('here');
 	var userbox = pokecoins.getUserPokebox(fromaddr);
 	pokemon = selectfrompokebox(pokemon, userbox);
+	console.log("here");
 	if (pokemon == -1)
 	{
 		throw new Error('You can\'t trade a pokemon you don\'t have!');
