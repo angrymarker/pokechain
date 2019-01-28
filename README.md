@@ -8,7 +8,7 @@ A from-scratch block chain, drawing inspiration from Nimiq. Made to inspire you 
   * Basic tamper prevention including chain reversion on faulty block creation
 
 ## Usage
-### Require file file
+### Require file 
 ```javascript
 //Need to update require location
 const pokechain = require('./main.js');
@@ -20,7 +20,7 @@ const pokechain = require('./main.js');
 var pokecoin = new pokechain();
 ```
 
-### 'Create' a wallet
+### "Create" a wallet
 ```javascript
 //Ensure user remembers private key, and is secret to them
 var key = pokechain.grabKey('Enter a private key here');
