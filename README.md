@@ -50,8 +50,23 @@ pokemonid = pokemonid.id;
 //Create transaction
 pokechain.addTransaction(curraddr, "recievingaddr", pokemonid, key);
 ```
-
-
+### Config
+```javascript
+//Change the location of the blockchain file - Deprecate at a later date
+"Main": {
+   "blockchainfile": "./data/blockchain.json"
+ }
+ //Change available pokemon
+ {
+ "Pokemon": {
+   "MinID": 1,    //based on pokedex, this is bulbasaur
+   "MaxID": 809,  //based on pokedex, this is melmetal. change to 151 if you want just gen 1
+   "ShinyMin": 0,    //Update shiny odds. Generates a random number. If the number == 420, is shiny
+   "ShinyMax": 8191, //Odds match that of actual games. Update for special events if you want
+   "StatsMin": 0,    //Update IV odds. IVs are from 0-31. 
+   "StatsMax": 31    //Update for special events if you want. 31 is "perfect"
+ },
+```
 
 ## Contributions
 Any and all contributions/feedback welcome!
