@@ -35,6 +35,7 @@ function selectfrompokebox(id, userbox)
 		try
 		{
 			pokemon = JSON.parse(userbox[p]);
+			//pokemon = userbox[p];
 		}
 		catch
 		{
@@ -51,11 +52,6 @@ function selectfrompokebox(id, userbox)
 
 
 
-module.exports = function() {
-	const chain = loadblockchain();
-	pokechain = new Blockchain(chain);
-	console.log('loaded chain');
-}
 
 function mineTransactions(rewardaddr) {
 	pokechain.minePendingTransactions(rewardaddr);
@@ -65,16 +61,25 @@ module.exports.mineTransactions = mineTransactions;
 
 module.exports.getUserbox = function(addr)
 {
+	if (addr == null)
+	{
+		throw new Error('Please provide an address to grab the user box for.');
+	}
 	var userbox = pokechain.getUserPokebox(addr);
+	userbox = JSON.stringify(userbox);
+	userbox = JSON.parse(userbox);
 	return userbox;
 }
 
-function testme(fromaddr, toaddr, pokemon, key)
+function addTransaction(fromaddr, toaddr, pokemon, key)
 {
+	if (pokemon == null || fromaddr == null || toaddr == null || key == null)
+	{
+		throw new Error('Unable to post transaction! Please make sure all data is entered.');
+	}
 	var userbox = pokechain.getUserPokebox(fromaddr);
-	console.log(pokemon);
 	pokemon = selectfrompokebox(pokemon, userbox);
-	console.log('tested');
+	
 	if (pokemon == -1)
 	{
 		throw new Error('You can\'t trade a pokemon you don\'t have!');
@@ -86,11 +91,23 @@ function testme(fromaddr, toaddr, pokemon, key)
 		pokechain.addTransaction(tx1);
 	}
 }
-module.exports.addTransaction = testme;
+module.exports.addTransaction = addTransaction;
 
 function grabkey(privatekey)
 {
+	if (privatekey == null)
+	{
+		throw new Error('Missing private key!');
+	}
 	const Key = ec.keyFromPrivate(privatekey);
 	return Key;
 }
 module.exports.grabKey = grabkey;
+
+function init()
+{
+	const chain = loadblockchain();
+	pokechain = new Blockchain(chain);
+	console.log('loaded chain');
+}
+init();

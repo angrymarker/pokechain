@@ -149,7 +149,6 @@ class Blockchain {
 					{
 						pokebox.push(trans.pokemon[p]);
 					}
-					console.log(pokebox.length);
 				}
       		}
     	}
@@ -207,7 +206,6 @@ class Blockchain {
 			var currpoke = JSON.parse(array[y]);
 			if (currpoke.id == search_term.id)
 			{
-				console.log('actual removal');
 				array.splice(y, 1);
 				return array;
 			}
