@@ -1,5 +1,5 @@
 {
-  "name": "blockchain",
+  "name": "pokechain",
   "version": "0.5.0",
   "description": "Customizable Blockchain",
   "main": "/src/main.js",

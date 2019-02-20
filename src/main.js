@@ -7,6 +7,10 @@ var pokechain;
 
 function updatejsonfile(json)
 {
+	if (json == null)
+	{
+		throw new Error('Chain is blank! Unable to save.');
+	}
 	json = JSON.stringify(json);
 	fs.writeFile(config.Main.blockchainfile, json, 'utf8', function(data){}); // write it back 
 }
@@ -18,6 +22,10 @@ function loadblockchain()
 	{
 		var chain = fs.readFileSync(jsonfile).toString();
 		chain = JSON.parse(chain);
+		if (chain.length == 0)
+		{
+			return null;
+		}
 		return chain;
 	}
 	else
@@ -49,9 +57,6 @@ function selectfrompokebox(id, userbox)
 	}
 	return -1;
 }
-
-
-
 
 function mineTransactions(rewardaddr) {
 	pokechain.minePendingTransactions(rewardaddr);
