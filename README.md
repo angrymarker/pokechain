@@ -23,7 +23,9 @@ var pokecoin = new pokechain();
 ### "Create" a wallet
 ```javascript
 //Ensure user remembers private key, and is secret to them
+//It will be needed for transactions. highly recommended to have a large string to increase security
 var key = pokechain.grabKey('Enter a private key here');
+
 //Public key is their address, should be known by whoever he wants to interact with 
 const curraddr = key.getPublic('hex');
 ```
