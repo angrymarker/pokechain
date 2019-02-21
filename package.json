@@ -1,10 +1,10 @@
 {
   "name": "pokechain",
-  "version": "0.5.0",
-  "description": "Customizable Blockchain",
-  "main": "/src/main.js",
+  "version": "0.5.1",
+  "description": "Pokemon Based Collectible Cryptocurrency Blockchain",
+  "main": "./src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node src/test.js"
   },
   "author": "Jacob Austin",
   "license": "ISC",

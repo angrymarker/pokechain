@@ -59,8 +59,9 @@ function selectfrompokebox(id, userbox)
 }
 
 function mineTransactions(rewardaddr) {
-	pokechain.minePendingTransactions(rewardaddr);
+	var result = pokechain.minePendingTransactions(rewardaddr);
 	updatejsonfile(pokechain.chain);
+	return result;
 }
 module.exports.mineTransactions = mineTransactions;
 
@@ -94,7 +95,9 @@ function addTransaction(fromaddr, toaddr, pokemon, key)
 		const tx1 = new Transaction(fromaddr, toaddr, pokemon);
 		tx1.signTransaction(key);
 		pokechain.addTransaction(tx1);
+		return "Transaction Complete!";
 	}
+	return "Transaction failed";
 }
 module.exports.addTransaction = addTransaction;
 
