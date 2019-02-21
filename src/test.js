@@ -16,3 +16,6 @@ var pokemonid = JSON.parse(userbox[0]);
 pokemonid = pokemonid.id;
 var result = pokechain.addTransaction(curraddr, "recieving", pokemonid, key);
 console.log(result);
+
+var newkey = pokechain.generatekey();
+console.log(newkey);

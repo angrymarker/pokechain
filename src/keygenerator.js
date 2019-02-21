@@ -1,16 +1,15 @@
-const EC = require('elliptic').ec;
+function generatekey(curve = 'secp256k1')
+{
+	const EC = require('elliptic').ec;
+	const ec = new EC(curve);
+	const key = ec.genKeyPair();
+	const publicKey = key.getPublic('hex');
+	const privateKey = key.getPrivate('hex');
+	var data = {
+		"publickKey": publicKey,
+		"privateKey": privateKey
+	}
+	return data;
+}
 
-// You can use any elliptic curve you want
-const ec = new EC('secp256k1');
-
-// Generate a new key pair and convert them to hex-strings
-const key = ec.genKeyPair();
-const publicKey = key.getPublic('hex');
-const privateKey = key.getPrivate('hex');
-
-// Print the keys to the console
-console.log();
-console.log('Your public key (also your wallet address, freely shareable)\n', publicKey);
-
-console.log();
-console.log('Your private key (keep this secret! To sign transactions)\n', privateKey);
+module.exports.generatekey = generatekey;

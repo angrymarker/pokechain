@@ -1,4 +1,5 @@
 const { Blockchain, Transaction } = require('./blockchain');
+const keygenerator = require('./keygenerator');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 const config = require('../config/config.json');
@@ -111,6 +112,14 @@ function grabkey(privatekey)
 	return Key;
 }
 module.exports.grabKey = grabkey;
+
+function generatekey(curve = 'secp256k1')
+{
+	var key = keygenerator.generatekey(curve);
+	return key;
+}
+
+module.exports.generatekey = generatekey;
 
 function init()
 {
