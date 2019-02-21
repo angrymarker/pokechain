@@ -22,12 +22,19 @@ var pokecoin = new pokechain();
 
 ### "Create" a wallet
 ```javascript
-//Ensure user remembers private key, and is secret to them
-//It will be needed for transactions. highly recommended to have a large string to increase security
+//You have 2 options to create a key/wallet, based on the private key. You can use an eliptic curve to create one
+var newkey = pokechain.generatekey(); //uses 'secp256k1' curve by default
+console.log(newkey);
+var key = newkey;
+
+//Alternatively you can pass a custom string/privatekey to generate a keyset. Highly recommended to have a large string to increase security
 var key = pokechain.grabKey('Enter a private key here');
 
 //Public key is their address, should be known by whoever he wants to interact with 
 const curraddr = key.getPublic('hex');
+
+//Ensure user remembers private key, and is secret to them
+//It will be needed for transactions. 
 ```
 
 ### Mine a block 
