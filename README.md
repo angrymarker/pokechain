@@ -11,7 +11,7 @@ A from-scratch block chain, drawing inspiration from Nimiq. Made to inspire you 
 ### Require file 
 ```javascript
 //Need to update require location
-const pokechain = require('./main.js');
+const pokechain = require('pokechain');
 ```
 
 ### Initialize blockchain
@@ -31,17 +31,21 @@ const curraddr = key.getPublic('hex');
 ### Mine a block 
 ```javascript
 //Miner is awarded 6 pokemon
-pokechain.mineTransactions(curraddr);
+//This mines using the server. Looking into client side mining.
+var result = pokechain.mineTransactions(curraddr);
+console.log(result); //Returns "Transaction Complete!" or an error
 ```
 
 ### Find "Balance"
 ```javascript
 //This crawls the blockchain, finding all transactions involving the curraddr, and consolidating down as needed
+//Json array object
 var userbox = pokechain.getUserbox(curraddr);
 ```
 
 ### Create a transaction
 ```javascript
+
 //If you need a a pokemon id to trade:
 //Had issues when not using JSON.parse - to fix
 var pokemonid = JSON.parse(userbox[0]);
@@ -52,7 +56,7 @@ pokechain.addTransaction(curraddr, "recievingaddr", pokemonid, key);
 ```
 ### Config
 ```javascript
-//Change the location of the blockchain file - Deprecate at a later date
+//Recommended to change location for accessibility and prevent overwriting
 "Main": {
    "blockchainfile": "./data/blockchain.json"
  }
