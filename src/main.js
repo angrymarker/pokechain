@@ -116,7 +116,7 @@ module.exports.grabKey = grabkey;
 function generatekey(curve = 'secp256k1')
 {
 	var key = keygenerator.generatekey(curve);
-	var keyc = pokechain.grabKey(key.privateKey);
+	var keyc = this.grabKey(key.privateKey);
 	return keyc;
 }
 
