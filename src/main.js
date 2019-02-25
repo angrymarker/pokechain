@@ -13,7 +13,14 @@ function updatejsonfile(json)
 		throw new Error('Chain is blank! Unable to save.');
 	}
 	json = JSON.stringify(json);
+	try
+{
 	fs.writeFile(config.Main.blockchainfile, json, 'utf8', function(data){}); // write it back 
+}
+	catch (err)
+{
+console.log(err);
+}
 }
 
 function loadblockchain()
@@ -59,8 +66,8 @@ function selectfrompokebox(id, userbox)
 	return -1;
 }
 
-function mineTransactions(rewardaddr) {
-	var result = pokechain.minePendingTransactions(rewardaddr);
+function mineTransactions(rewardaddr, nonce = 0) {
+	var result = pokechain.minePendingTransactions(rewardaddr, nonce);
 	updatejsonfile(pokechain.chain);
 	return result;
 }

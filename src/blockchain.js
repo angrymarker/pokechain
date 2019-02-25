@@ -107,12 +107,12 @@ class Blockchain {
 		return this.chain[this.chain.length - 1];
 	}
 	
-	minePendingTransactions(rewardAddr) {
+	minePendingTransactions(rewardAddr, nonce = 0) {
 		const pokereward = this.getminingreward(this.miningReward, rewardAddr);
 		const rewardTrans = new Transaction(null, rewardAddr, pokereward);
 		this.pendingTransactions.push(rewardTrans);
 		
-		let block = new Block(this.pendingTransactions, this.getLatestBlock().hash, this.chain.length);
+		let block = new Block(this.pendingTransactions, this.getLatestBlock().hash, this.chain.length, Date.now(), nonce);
 		var hash = block.mineBlock(this.difficulty);
 		
 		this.chain.push(block);
@@ -149,6 +149,15 @@ class Blockchain {
 						pokebox.push(trans.pokemon[p]);
 					}
 				}
+		}
+		for (const trans of this.pendingTransactions) {
+                if (trans.fromAddr === address) {
+                    for (var p = 0; p < trans.pokemon.length; p++)
+					{
+						pokebox = this.removefromarray(pokebox, trans.pokemon[p]);
+					}
+                }
+            
       		}
     	}
     	pokebox.sort(function(a, b){
