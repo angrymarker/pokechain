@@ -14,8 +14,13 @@ var userbox = pokechain.getUserbox(curraddr);
 //Test a trade
 var pokemonid = JSON.parse(userbox[0]);
 pokemonid = pokemonid.id;
+console.log('id' + pokemonid);
 var result = pokechain.addTransaction(curraddr, "recieving", pokemonid, key);
 console.log(result);
+userbox = pokechain.getUserbox(curraddr);
+pokemonid = JSON.parse(userbox[0]);
+pokemonid = pokemonid.id;
+console.log('id' + pokemonid);
 
 var newkey = pokechain.generatekey();
-console.log(newkey);
+//console.log(newkey);

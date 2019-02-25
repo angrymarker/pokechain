@@ -149,11 +149,12 @@ class Blockchain {
 						pokebox.push(trans.pokemon[p]);
 					}
 				}
-		}
-		for (const trans of this.pendingTransactions) {
+			}
+			for (const trans of this.pendingTransactions) {
                 if (trans.fromAddr === address) {
                     for (var p = 0; p < trans.pokemon.length; p++)
 					{
+						console.log('removed via pending');
 						pokebox = this.removefromarray(pokebox, trans.pokemon[p]);
 					}
                 }

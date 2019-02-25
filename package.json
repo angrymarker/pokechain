@@ -1,44 +1,23 @@
 {
-  "_from": "pokechain@^0.5.0",
-  "_id": "pokechain@0.5.5",
-  "_inBundle": false,
-  "_integrity": "sha512-N8qP0bBZfIX6A78xiien6A4IutY2M90X/KKCloS7b6eXt5QZubMOkgq0mPCM77qLNpXJq3Fgs9/qw1Zq2mPQmQ==",
-  "_location": "/pokechain",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "range",
-    "registry": true,
-    "raw": "pokechain@^0.5.0",
-    "name": "pokechain",
-    "escapedName": "pokechain",
-    "rawSpec": "^0.5.0",
-    "saveSpec": null,
-    "fetchSpec": "^0.5.0"
+  "name": "pokechain",
+  "version": "0.5.6",
+  "description": "Pokemon Based Collectible Cryptocurrency Blockchain",
+  "main": "./src/main.js",
+  "scripts": {
+    "test": "node src/test.js"
   },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/pokechain/-/pokechain-0.5.5.tgz",
-  "_shasum": "fb652a35df07542910ce2e50b6b801e6d864cfa2",
-  "_spec": "pokechain@^0.5.0",
-  "_where": "/var/www/api/home",
-  "author": {
-    "name": "Jacob Austin"
-  },
-  "bugs": {
-    "url": "https://github.com/angrymarker/pokechain/issues"
-  },
-  "bundleDependencies": false,
+  "author": "Jacob Austin",
+  "license": "ISC",
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "elliptic": "^6.4.1",
     "nanoid": "^2.0.0"
   },
-  "deprecated": false,
-  "description": "Pokemon Based Collectible Cryptocurrency Blockchain",
   "devDependencies": {},
-  "homepage": "https://github.com/angrymarker/pokechain#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angrymarker/pokechain.git"
+  },
   "keywords": [
     "pokemon",
     "blockchain",
@@ -46,15 +25,8 @@
     "javascript",
     "pokechain"
   ],
-  "license": "ISC",
-  "main": "./src/main.js",
-  "name": "pokechain",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/angrymarker/pokechain.git"
+  "bugs": {
+    "url": "https://github.com/angrymarker/pokechain/issues"
   },
-  "scripts": {
-    "test": "node src/test.js"
-  },
-  "version": "0.5.5"
+  "homepage": "https://github.com/angrymarker/pokechain#readme"
 }
