@@ -62,6 +62,13 @@ class Block {
 		}
 		return this.hash;
 	}
+    
+    validateMineChallenge(nonce, difficulty){
+        if (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')){
+            return true;
+        }
+        return false;
+    }
 	
 	hasValidTransactions()
 	{
@@ -106,6 +113,19 @@ class Blockchain {
 	getLatestBlock() {
 		return this.chain[this.chain.length - 1];
 	}
+    
+    getNonceData() {
+        var nonces = [];
+        for (const block of this.chain) {
+            var nonce = block.nonce;
+            nonces.push(nonce)
+        }
+        return nonces;
+    }
+    
+    getPendingTransactions() {
+        return this.pendingTransactions;
+    }
 	
 	minePendingTransactions(rewardAddr, nonce = 0) {
 		const pokereward = this.getminingreward(this.miningReward, rewardAddr);
@@ -119,6 +139,15 @@ class Blockchain {
 		this.pendingTransactions = [];
 		return hash;
 	}
+    
+    presentMiningChallenge() {
+        let block = new Block(this.pendingTransactions, this.getLatestBlock().hash, this.chain.length, Date.now(), 0);
+        return block;
+    }
+    
+    validateMiningChallenge(block, nonce){
+        block.validateMineChallenge(nonce, this.difficulty);
+    }
 	
 	addTransaction(transaction) {
 		if (!transaction.fromAddr || !transaction.toAddr) {
