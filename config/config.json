@@ -8,6 +8,7 @@
    "StatsMax": 31
  },
  "Main": {
-   "blockchainfile": "/var/www/data/blockchain.json"
+   "blockchainfile": "./data/blockchain.json",
+   "difficulty": 2
  }
 }

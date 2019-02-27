@@ -12,15 +12,19 @@ function updatejsonfile(json)
 	{
 		throw new Error('Chain is blank! Unable to save.');
 	}
-	json = JSON.stringify(json);
-	try
-{
-	fs.writeFile(config.Main.blockchainfile, json, 'utf8', function(data){}); // write it back 
-}
-	catch (err)
-{
-console.log(err);
-}
+	else
+	{
+		json = JSON.stringify(json);
+		try
+		{
+			//fs.writeFile(config.Main.blockchainfile, json, 'utf8', function(data){}); // write it back 
+			fs.writeFileSync(config.Main.blockchainfile, json); // write it back 
+		}
+		catch (err)
+		{
+			console.log(err);
+		}
+	}
 }
 
 function loadblockchain()
@@ -141,10 +145,63 @@ function generatekey(curve = 'secp256k1')
 
 module.exports.generatekey = generatekey;
 
+function presentMiningChallenge()
+{
+	var block = pokechain.presentMiningChallenge();
+	block = JSON.stringify(block);
+	return block;
+}
+
+module.exports.presentMiningChallenge = presentMiningChallenge;
+
+function validateMiningChallenge(blockid, nonce)
+{
+	var result = pokechain.validateMiningChallenge(blockid, nonce);
+	return result;
+}
+
+module.exports.validateMiningChallenge = validateMiningChallenge;
+
+function setReward()
+{
+	var reward = calculateReward();
+	pokechain.setReward(6);
+}
+
+function calculateReward(nonce, pendingTransactions)
+{
+	var reward = 1;
+	if (nonce > 500)
+	{
+		reward = reward + 1;
+	}
+	if (nonce > 5000)
+	{
+		reward = reward + 1;
+	}
+	if (nonce > 50000)
+	{
+		reward = reward + 1;
+	}
+	if (pendingTransactions > 10)
+	{
+		reward = reward + 1;
+	}
+	if (pendingTransactions > 100)
+	{
+		reward = reward + 1;
+	}
+	if (pendingTransactions > 1000)
+	{
+		reward = reward + 1;
+	}
+}
+
 function init()
 {
 	const chain = loadblockchain();
 	pokechain = new Blockchain(chain);
 	console.log('loaded chain');
 }
+
 init();

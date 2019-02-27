@@ -2,6 +2,7 @@ const SHA256 = require('crypto-js/sha256');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 const pokegen = require('./pokemongenerator.js');
+const config = require('../config/config.json');
 
 class Transaction {
 	constructor(fromAddr, toAddr, pokemon) {
@@ -65,9 +66,9 @@ class Block {
     
     validateMineChallenge(nonce, difficulty){
         if (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')){
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 	
 	hasValidTransactions()
@@ -84,9 +85,10 @@ class Block {
 class Blockchain {
 	constructor(chain = null) {
 		this.chain = this.createchain(chain);
-		this.difficulty = 2;
+		this.difficulty = config.Main.difficulty;
 		this.pendingTransactions = [];
 		this.miningReward = 6;
+		this.challengeBlock = null;
 	}
 	
 	createchain(chain = null) {
@@ -103,6 +105,22 @@ class Blockchain {
 				passchain.push(block);
 			}
 			return passchain;
+		}
+	}
+	
+	setReward(numberOfPokemon)
+	{
+		if (numberOfPokemon <=0)
+		{
+			throw new Error('Can\'t have a reward less than 1!');
+		}
+		else
+		{
+			if (numberOfPokemon > 100)
+			{
+				numberOfPokemon = 100;
+			}
+			this.miningReward = numberOfPokemon;
 		}
 	}
 	
@@ -141,12 +159,35 @@ class Blockchain {
 	}
     
     presentMiningChallenge() {
-        let block = new Block(this.pendingTransactions, this.getLatestBlock().hash, this.chain.length, Date.now(), 0);
-        return block;
+    	if (this.challengeBlock == null)
+    	{
+    		let block = new Block(this.pendingTransactions, this.getLatestBlock().hash, this.chain.length, Date.now(), 0);
+    		this.challengeBlock = block;
+        	return block;
+    	}
+    	else
+    	{
+    		return this.challengeBlock;
+    	}
+        
     }
     
-    validateMiningChallenge(block, nonce){
-        block.validateMineChallenge(nonce, this.difficulty);
+    validateMiningChallenge(blockid, nonce){
+    	console.log("passed " + blockid);
+    	console.log("chain " + this.challengeBlock.id);
+    	if (this.challengeBlock == null)
+    	{
+    		throw new Error('No challenge block present!');
+    	}
+    	else if (blockid == this.challengeBlock.id)
+    	{
+    		var result = this.challengeBlock.validateMineChallenge(nonce, this.difficulty);
+    		return result;
+    	}
+    	else
+    	{
+    		throw new Error('You don\'t have the current challenge block!');
+    	}
     }
 	
 	addTransaction(transaction) {
@@ -191,8 +232,13 @@ class Blockchain {
       		}
     	}
     	pokebox.sort(function(a, b){
+    		try{
 			a = JSON.parse(a);
 			b = JSON.parse(b);
+			}
+			catch (err)
+			{
+			}
 			return a.Pokemon.id - b.Pokemon.id;
 		});
     	return pokebox;
