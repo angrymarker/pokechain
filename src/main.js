@@ -85,6 +85,18 @@ module.exports.getUserbox = function(addr)
 	return userbox;
 }
 
+module.exports.getPendingTransactions = function()
+{
+    var pt = pokechain.getPendingTransactions();
+    return pt;
+}
+
+module.exports.getNonceData = function()
+{
+    var nonces = pokechain.getNonceData();
+    return nonces;
+}
+
 function addTransaction(fromaddr, toaddr, pokemon, key)
 {
 	if (pokemon == null || fromaddr == null || toaddr == null || key == null)
