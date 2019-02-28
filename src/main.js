@@ -89,6 +89,18 @@ module.exports.getUserbox = function(addr)
 	return userbox;
 }
 
+module.exports.getUserTransactions = function(addr)
+{
+	var txs = pokechain.getUserTransactions(addr);
+	return txs;
+}
+
+module.exports.getPokemonTransactions = function(pid)
+{
+	var txs = pokechain.getPokemonTransactions(pid);
+	return txs;
+}
+
 module.exports.getPendingTransactions = function()
 {
     var pt = pokechain.getPendingTransactions();

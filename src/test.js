@@ -6,9 +6,9 @@ var key2;
 var addr;
 var addr2;
 
-//basictest();
+basictest();
 
-testclientmining();
+//testclientmining();
 
 function testwallet()
 {
@@ -102,8 +102,11 @@ function testclientmining()
 {
 	var challengeblock = pokechain.presentMiningChallenge();
 	var challengeblockid = JSON.parse(challengeblock);
+	console.log(challengeblockid);
+	var numpendingtrans = challengeblockid.transactions.length;
 	challengeblockid = challengeblockid.id;
+	
 
-	var challengeresult = pokechain.validateMiningChallenge(challengeblockid, 56);
+	var challengeresult = pokechain.validateMiningChallenge(challengeblockid, numpendingtrans, 56);
 	console.log('challeged pass? ' + challengeresult);
 }

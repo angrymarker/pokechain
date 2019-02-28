@@ -172,7 +172,7 @@ class Blockchain {
         
     }
     
-    validateMiningChallenge(blockid, nonce){
+    validateMiningChallenge(blockid, numpendingtrans, nonce){
     	console.log("passed " + blockid);
     	console.log("chain " + this.challengeBlock.id);
     	if (this.challengeBlock == null)
@@ -181,8 +181,15 @@ class Blockchain {
     	}
     	else if (blockid == this.challengeBlock.id)
     	{
-    		var result = this.challengeBlock.validateMineChallenge(nonce, this.difficulty);
-    		return result;
+    		if (numpendingtrans == this.challengeBlock.transactions.length)
+    		{
+    			var result = this.challengeBlock.validateMineChallenge(nonce, this.difficulty);
+    			return result;
+    		}
+    		else
+    		{
+    			throw new Error('Transactions on challenge block do not match!');
+    		}
     	}
     	else
     	{
@@ -249,6 +256,20 @@ class Blockchain {
 		for (const block of this.chain) {
 			for (const tx of block.transactions) {
 				if (tx.fromAddr === address || tx.toAddr === address) {
+					transactions.push(tx);
+				}
+			}
+		}
+		return transactions;
+	}
+	
+	getPokemonTransactions(pid) {
+		var transactions = [];
+		for (const block of this.chain) {
+			for (const tx of block.transactions) {
+				var pokemon = tx.pokemon;
+				if (pid == pokemon.id)
+				{
 					transactions.push(tx);
 				}
 			}
