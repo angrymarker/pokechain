@@ -4,20 +4,13 @@ A from-scratch block chain, drawing inspiration from Nimiq. Made to inspire you 
 ## Features
   * SHA256 encryption
   * Pokemon based collectible cryptocurrency
-  * Bitcoin based mining scheme
+  * Bitcoin based blockchain
   * Basic tamper prevention including chain reversion on faulty block creation
 
 ## Usage
 ### Require file 
 ```javascript
-//Need to update require location
 const pokechain = require('pokechain');
-```
-
-### Initialize blockchain
-```javascript
-//pokecoin is not used after this, looking into dropping this requirement
-var pokecoin = new pokechain();
 ```
 
 ### "Create" a wallet
@@ -61,13 +54,14 @@ var pokemonid = JSON.parse(userbox[0]);
 pokemonid = pokemonid.id;
 
 //Create transaction
-pokechain.addTransaction(curraddr, "recievingaddr", pokemonid, key);
+pokechain.addTransaction(curraddr, recievingaddr, pokemonid, key);
 ```
 ### Config
 ```javascript
 //Recommended to change location for accessibility and prevent overwriting
 "Main": {
-   "blockchainfile": "./data/blockchain.json"
+   "blockchainfile": "./data/blockchain.json",
+   "Difficulty": 2
  }
  //Change available pokemon
  {
