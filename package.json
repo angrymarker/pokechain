@@ -1,6 +1,6 @@
 {
   "name": "pokechain",
-  "version": "0.5.6",
+  "version": "0.6.6",
   "description": "Pokemon Based Collectible Cryptocurrency Blockchain",
   "main": "./src/main.js",
   "scripts": {
