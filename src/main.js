@@ -115,6 +115,7 @@ module.exports.getNonceData = function()
 
 function addTransaction(fromaddr, toaddr, pokemon, key)
 {
+	console.log(pokemon);
 	if (pokemon == null || fromaddr == null || toaddr == null || key == null)
 	{
 		throw new Error('Unable to post transaction! Please make sure all data is entered.');
@@ -128,6 +129,7 @@ function addTransaction(fromaddr, toaddr, pokemon, key)
 	}
 	else
 	{
+		
 		const tx1 = new Transaction(fromaddr, toaddr, pokemon);
 		tx1.signTransaction(key);
 		pokechain.addTransaction(tx1);
@@ -136,6 +138,57 @@ function addTransaction(fromaddr, toaddr, pokemon, key)
 	return "Transaction failed";
 }
 module.exports.addTransaction = addTransaction;
+
+function renamePokemon(owner, pokemon, key, newname)
+{
+	if (pokemon == null || owner == null || key == null || newname == null)
+	{
+		throw new Error('Unable to rename! Please make sure all data is entered.');
+	}
+	var userbox = pokechain.getUserPokebox(owner);
+	pokemon = selectfrompokebox(pokemon, userbox);
+	var oo = pokemon[0].OriginalOwner;
+	if (oo == owner)
+	{
+		pokemon[0].Nickname = newname;
+		const tx1 = new Transaction(owner, owner, pokemon);
+		tx1.signTransaction(key);
+		pokechain.addTransaction(tx1);
+		return "Renamed Pokemon!";
+	}
+	else
+	{
+		console.log(oo);
+		console.log(owner);
+		throw new Error('Only the Original Owner can change the nickname!');
+	}
+}
+
+module.exports.renamePokemon = renamePokemon;
+
+
+function addNoteToNotechain(owner, pokemon, key, note)
+{
+	if (pokemon == null || owner == null || key == null || note == null)
+	{
+		throw new Error('Unable to add note! Please make sure all data is entered.');
+	}
+	console.log(pokemon);
+	var userbox = pokechain.getUserPokebox(owner);
+	pokemon = selectfrompokebox(pokemon, userbox);
+	
+	if (pokemon[0].Notechain == null)
+	{
+		pokemon[0].Notechain = [];
+	}
+	pokemon[0].Notechain.push(note);
+	const tx1 = new Transaction(owner, owner, pokemon);
+	tx1.signTransaction(key);
+	pokechain.addTransaction(tx1);
+	return "Added note!";
+}
+
+module.exports.addNoteToNotechain = addNoteToNotechain;
 
 function grabkey(privatekey)
 {

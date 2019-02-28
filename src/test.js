@@ -25,6 +25,26 @@ function testmining(address)
 	console.log("mined " +blockmined);
 }
 
+function testnewnickname()
+{
+	var userbox = pokechain.getUserbox(addr);
+	var pokemonid = JSON.parse(userbox[0]);
+	pokemonid = pokemonid.id;
+	
+	var result = pokechain.renamePokemon(addr, pokemonid, key, "Did it work");
+	console.log(result);
+}
+
+function testNotes()
+{
+	var userbox = pokechain.getUserbox(addr);
+	var pokemonid = JSON.parse(userbox[0]);
+	pokemonid = pokemonid.id;
+	
+	var result = pokechain.addNoteToNotechain(addr, pokemonid, key, "Hi from the developer!");
+	console.log(result);
+}
+
 function testtrade(toaddr,fromaddr)
 {
 	//Grab user content
@@ -96,6 +116,12 @@ function basictest()
 	testnoncedata();
 
 	testpendingdata();
+
+	testnewnickname();
+
+	testNotes()
+
+	testmining(addr);
 }
 
 function testclientmining()

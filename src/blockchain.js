@@ -231,13 +231,14 @@ class Blockchain {
                 if (trans.fromAddr === address) {
                     for (var p = 0; p < trans.pokemon.length; p++)
 					{
-						console.log('removed via pending');
 						pokebox = this.removefromarray(pokebox, trans.pokemon[p]);
 					}
                 }
             
       		}
     	}
+    	try
+    	{
     	pokebox.sort(function(a, b){
     		try{
 			a = JSON.parse(a);
@@ -248,6 +249,11 @@ class Blockchain {
 			}
 			return a.Pokemon.id - b.Pokemon.id;
 		});
+		}
+		catch(err)
+		{
+			console.log('could not sort');
+		}
     	return pokebox;
 	}
 	
@@ -308,7 +314,13 @@ class Blockchain {
 	
 	removefromarray(array, search_term) {
 		for (var y = array.length - 1; y >= 0; y--) {
-			var currpoke = JSON.parse(array[y]);
+			var currpoke;
+			try{
+				currpoke = JSON.parse(array[y]);
+			}catch(err)
+			{
+				currpoke = array[y];
+			}
 			if (currpoke.id == search_term.id)
 			{
 				array.splice(y, 1);
