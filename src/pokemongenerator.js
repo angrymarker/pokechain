@@ -9,8 +9,11 @@ exports.createpokemon = function(owner = null)
 		Shiny: this.isshiny(),
 		IVs: this.grabstats(),
 		OriginalOwner: this.grabOwner(owner),
-		Gender: this.grabgender()
+		Gender: this.grabgender(),
+		Notechain: [],
+		Nickname: ""
 	}
+	data.Nickname = data.Pokemon.name.english;
 	return JSON.stringify(data);
 }
 
@@ -69,7 +72,7 @@ exports.grabOwner = function(owner = null)
 
 exports.grabgender = function()
 {
-	var gender = this.getRandomInt(2,1);
+	var gender = Math.random() < 0.5;
 	if (gender == 1)
 	{
 		return 'male';
