@@ -181,7 +181,11 @@ function addNoteToNotechain(owner, pokemon, key, note)
 	{
 		pokemon[0].Notechain = [];
 	}
-	pokemon[0].Notechain.push(note);
+    var content = {
+        author: owner,
+        note: note
+    }
+	pokemon[0].Notechain.push(content);
 	const tx1 = new Transaction(owner, owner, pokemon);
 	tx1.signTransaction(key);
 	pokechain.addTransaction(tx1);
